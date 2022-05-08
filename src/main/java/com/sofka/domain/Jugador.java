@@ -15,15 +15,16 @@ public class Jugador implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
+    //(strategy = GenerationType.IDENTITY) esto es solo para campos autoincremento
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idj", nullable = false,length = 200)
     private String idj;
 
-    private Integer idb;
+
 
     @OneToMany(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             targetEntity = Numerosj.class,
             cascade = CascadeType.REMOVE,
             mappedBy = "jugador"
@@ -32,7 +33,7 @@ public class Jugador implements Serializable {
     private List<Numerosj> numerosj = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Bingo.class, optional = false)
-    @JoinColumn(name = "idb", nullable = false)
+    @JoinColumn(name = "idb")
     @JsonBackReference
     private Bingo bingo;
 

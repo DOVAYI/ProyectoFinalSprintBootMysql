@@ -22,6 +22,8 @@ public class Bingo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idb", nullable = false,length = 200)
@@ -34,7 +36,7 @@ public class Bingo implements Serializable {
     private String ganador;
 
     @OneToMany(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             targetEntity = Numerosb.class,
             cascade = CascadeType.REMOVE,
             mappedBy = "bingo"
@@ -43,7 +45,7 @@ public class Bingo implements Serializable {
     private List<Numerosb> numerosb = new ArrayList<>();
 
     @OneToMany(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             targetEntity = Jugador.class,
             cascade = CascadeType.REMOVE,
             mappedBy = "bingo"
