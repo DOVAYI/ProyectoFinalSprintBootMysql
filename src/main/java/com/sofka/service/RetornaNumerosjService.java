@@ -18,7 +18,7 @@ public class RetornaNumerosjService {
 
     @Transactional(readOnly = true)
     public List<Numerosj> getListNumerosJugador(String idjugador) {
-        String newIdjugador= RestructurasIdJugador.restructurarId(idjugador);
-        return numerosjdao.numerosRandomJugador(newIdjugador);
+
+        return numerosjdao.numerosRandomJugador(idjugador);
     }
 }

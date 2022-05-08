@@ -37,15 +37,15 @@ public class BingoService {
     private Integer matrizNumerosJugador[][] = new Integer[5][5];
 
     @Transactional
-    public Bingo crearBingo(@RequestBody String idJugador) {
+    public Bingo crearBingo(String idJugador) {
 
         bingo.setEstado("pendiente");
         bingo.setGanador("nn");
         bingo2 = bingodao.save(bingo);
-        String newIdjugador= RestructurasIdJugador.restructurarId(idJugador);
+
 
         if (bingo2.getIdb() > 0 && bingo2.getIdb() != null) {
-            crearJugador(newIdjugador, bingo2);
+            crearJugador(idJugador, bingo2);
         }
 
         return bingo2;
