@@ -8,6 +8,7 @@ import com.sofka.domain.Bingo;
 import com.sofka.domain.Jugador;
 import com.sofka.domain.Numerosj;
 import com.sofka.utility.GenerarNumerosAleatorios;
+import com.sofka.utility.RestructurasIdJugador;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,10 +42,10 @@ public class BingoService {
         bingo.setEstado("pendiente");
         bingo.setGanador("nn");
         bingo2 = bingodao.save(bingo);
-
+        String newIdjugador= RestructurasIdJugador.restructurarId(idJugador);
 
         if (bingo2.getIdb() > 0 && bingo2.getIdb() != null) {
-            crearJugador(idJugador, bingo2);
+            crearJugador(newIdjugador, bingo2);
         }
 
         return bingo2;
