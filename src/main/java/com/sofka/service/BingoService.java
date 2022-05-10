@@ -36,6 +36,23 @@ public class BingoService {
 
     private Integer matrizNumerosJugador[][] = new Integer[5][5];
 
+    @Transactional(readOnly = true)
+    public String getEstado(){
+        String status="";
+        status=bingodao.getEstadoJuego("pendiente");
+        log.info("prueba"+status);
+
+        if(status==null){
+            return "vacio";
+        }else{
+            return status;
+        }
+
+    }
+    @Transactional
+    public void actualizarEstado(){
+        bingodao.updateStatus("iniciado","pendiente");
+    }
     @Transactional
     public Bingo crearBingo(String idJugador) {
 

@@ -32,15 +32,29 @@ public class BingoController {
     @Autowired
     private RetornaNumerosjService retornanumeroService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PatchMapping(path="/actualizarestado")
+    public void cambiarEstadoJuego(){
+         bingoService.actualizarEstado();
+    }
 
-    //@GetMapping(path="/numerosjugador")
+    @CrossOrigin(origins = "*")
+    @GetMapping(path="/buscarjuego")
+    public String getEstado(){
+        String estado=bingoService.getEstado();
+        log.info("prueba"+estado);
+
+        return estado;
+    }
+
+
     @Transactional(readOnly = true)
     public List<Numerosj> cargarNUmerosJugador( String idjugador) {
         return retornanumeroService.getListNumerosJugador(idjugador);
     }
 
-    //idJugador=ltsprueba
-    //@CrossOrigin(origins = "http://localhost:3000")
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping(path = "/crearbingo")
     public List<Numerosj> create(@RequestBody String idJugador) {
         List<Numerosj> numerosj = null;
