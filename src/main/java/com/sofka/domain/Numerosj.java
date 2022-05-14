@@ -2,6 +2,7 @@ package com.sofka.domain;
 
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,6 +45,7 @@ public class Numerosj implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Jugador.class, optional = false)
     @JoinColumn(name = "idj", nullable = false)
     @JsonBackReference
+
     private Jugador jugador;
 
 

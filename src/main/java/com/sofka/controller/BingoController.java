@@ -1,5 +1,6 @@
 package com.sofka.controller;
 
+import com.sofka.domain.Jugador;
 import com.sofka.domain.Numerosj;
 import com.sofka.service.BingoService;
 import com.sofka.service.RetornaNumerosjService;
@@ -32,13 +33,10 @@ public class BingoController {
     @Autowired
     private RetornaNumerosjService retornanumeroService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PatchMapping(path="/actualizarestado")
-    public void cambiarEstadoJuego(){
-         bingoService.actualizarEstado();
-    }
 
-    @CrossOrigin(origins = "*")
+
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path="/buscarjuego")
     public String getEstado(){
         String estado=bingoService.getEstado();
@@ -63,6 +61,19 @@ public class BingoController {
         log.info("prueba2"+newIdjugador);
         Bingo bingo = bingoService.crearBingo(newIdjugador);
         if (bingo.getIdb() > 0 && bingo.getIdb() != null) {
+            numerosj = cargarNUmerosJugador(newIdjugador);
+        }
+        return numerosj;
+    }
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping(path = "/crearjugador")
+    public List<Numerosj> createGamers(@RequestBody String idJugador) {
+        List<Numerosj> numerosj = null;
+        log.info("prueba"+idJugador);
+        String newIdjugador = RestructurasIdJugador.restructurarId(idJugador);
+        log.info("prueba2"+newIdjugador);
+        Jugador jugad = bingoService.crearJugador2(newIdjugador);
+        if (!(jugad.getIdj().equals(" ")) && jugad.getIdj() != null) {
             numerosj = cargarNUmerosJugador(newIdjugador);
         }
         return numerosj;
