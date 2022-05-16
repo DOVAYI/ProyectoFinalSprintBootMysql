@@ -7,15 +7,14 @@ import com.sofka.dao.numerosjDao;
 import com.sofka.domain.Bingo;
 import com.sofka.domain.Jugador;
 import com.sofka.domain.Numerosj;
-import com.sofka.utility.DelayMinutes;
 import com.sofka.utility.GenerarNumerosAleatorios;
-import com.sofka.utility.RestructurasIdJugador;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 @Slf4j
@@ -29,6 +28,11 @@ public class BingoService {
 
     @Autowired
     private numerosjDao numerosjdao;
+
+    private Timer timer;
+    private Integer contador = 0;
+
+
 
 
     @Transactional
@@ -51,11 +55,11 @@ public class BingoService {
     }
 
     @Transactional
-    public Jugador crearJugador2(String idJugador ) {
+    public Jugador crearJugador2(String idJugador) {
         Integer matrizNumerosJugador[][] = new Integer[5][5];
         GenerarNumerosAleatorios numerosAleatorios =
                 new GenerarNumerosAleatorios();
-        Integer idBingo=getIdBingo();
+        Integer idBingo = getIdBingo();
         Jugador jugador3 = new Jugador();
         Bingo bingo3 = bingodao.getBingo(idBingo);
         jugador3.setIdj(idJugador);
@@ -93,15 +97,39 @@ public class BingoService {
             crearNUmerosJugador(jugador2, matrizNumerosJugador);
 
         }
-        actualizarEstado();
+        updatStatus();
 
 
         return jugador2;
     }
-    //aqui metodo para delay
-    private void actualizarEstado(){
-        DelayMinutes delayMinutes=new DelayMinutes();
+
+    private void updatStatus() {
+
+
+        timer = new Timer();
+        timer.schedule(tarea, 0, 60000);
+
+
+
     }
+
+    TimerTask tarea  = new TimerTask() {
+        @Override
+        public void run() {
+            contador++;
+            log.info("pasaron  minutos" + contador);
+            if (contador == 3) {
+                actualizarEstado();
+                timer.cancel();
+
+            }
+        }
+    };
+
+    public void actualizarEstado() {
+        bingodao.updateStatus("iniciado", "pendiente");
+    }
+
     @Transactional
     public void crearNUmerosJugador(Jugador jugador,
                                     Integer matrizNumeros[][]) {
